@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Achiever OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background: #050505; color: white; overflow-x: hidden; }
+        .glass-card { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .task-high { background: rgba(239, 68, 68, 0.07); border-right: 4px solid #ef4444; }
+        .task-normal { background: rgba(59, 130, 246, 0.07); border-right: 4px solid #3b82f6; }
+        .premium-shadow { box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-blue-500 font-bold tracking-widest text-sm uppercase">Developed by anise</span>
+            <h1 class="text-5xl font-black mt-2 mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+                معاً نحو تحقيق الأحلام
+            </h1>
+            <div id="motivational-bar" class="text-emerald-400 font-medium h-6"></div>
+        </div>
+
+        <div class="glass-card p-2 rounded-2xl mb-10 premium-shadow">
+            <div class="flex flex-col md:flex-row gap-2">
+                <input type="text" id="taskInput" placeholder="اكتب حلمك أو مهمتك القادمة هنا..." 
+                    class="flex-1 bg-transparent border-none px-6 py-4 outline-none text-lg">
+                
+                <div class="flex gap-2 p-2">
+                    <select id="taskType" class="bg-white/5 border-none rounded-xl px-4 py-2 outline-none text-sm cursor-pointer">
+                        <option value="high">🔥 مهمة عاجلة</option>
+                        <option value="normal">✨ هدف عادي</option>
+                    </select>
+                    
+                    <button onclick="createTask()" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-xl font-bold transition-all active:scale-90 flex items-center gap-2">
+                        <i class="ri-flashlight-line"></i> تنفيذ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="glass-card p-4 rounded-xl text-center">
+                <span class="text-gray-500 text-xs block">إجمالي المهام</span>
+                <span id="stat-total" class="text-xl font-bold text-white">0</span>
+            </div>
+            <div class="glass-card p-4 rounded-xl text-center border-b-2 border-emerald-500">
+                <span class="text-gray-500 text-xs block">تم الإنجاز</span>
+                <span id="stat-done" class="text-xl font-bold text-emerald-400">0</span>
+            </div>
+        </div>
+
+        <div id="feed" class="space-y-3">
+            </div>
+    </div>
+
+    <audio id="hornSound" src="https://www.myinstants.com/media/sounds/tada.mp3"></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Achiever OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background: #050505; color: white; overflow-x: hidden; }
+        .glass-card { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .task-high { background: rgba(239, 68, 68, 0.07); border-right: 4px solid #ef4444; }
+        .task-normal { background: rgba(59, 130, 246, 0.07); border-right: 4px solid #3b82f6; }
+        .premium-shadow { box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-blue-500 font-bold tracking-widest text-sm uppercase">Developed by Gemini</span>
+            <h1 class="text-5xl font-black mt-2 mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+                معاً نحو تحقيق الأحلام
+            </h1>
+            <div id="motivational-bar" class="text-emerald-400 font-medium h-6"></div>
+        </div>
+
+        <div class="glass-card p-2 rounded-2xl mb-10 premium-shadow">
+            <div class="flex flex-col md:flex-row gap-2">
+                <input type="text" id="taskInput" placeholder="اكتب حلمك أو مهمتك القادمة هنا..." 
+                    class="flex-1 bg-transparent border-none px-6 py-4 outline-none text-lg">
+                
+                <div class="flex gap-2 p-2">
+                    <select id="taskType" class="bg-white/5 border-none rounded-xl px-4 py-2 outline-none text-sm cursor-pointer">
+                        <option value="high">🔥 مهمة عاجلة</option>
+                        <option value="normal">✨ هدف عادي</option>
+                    </select>
+                    
+                    <button onclick="createTask()" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-xl font-bold transition-all active:scale-90 flex items-center gap-2">
+                        <i class="ri-flashlight-line"></i> تنفيذ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="glass-card p-4 rounded-xl text-center">
+                <span class="text-gray-500 text-xs block">إجمالي المهام</span>
+                <span id="stat-total" class="text-xl font-bold text-white">0</span>
+            </div>
+            <div class="glass-card p-4 rounded-xl text-center border-b-2 border-emerald-500">
+                <span class="text-gray-500 text-xs block">تم الإنجاز</span>
+                <span id="stat-done" class="text-xl font-bold text-emerald-400">0</span>
+            </div>
+        </div>
+
+        <div id="feed" class="space-y-3">
+            </div>
+    </div>
+
+    <audio id="hornSound" src="https://www.myinstants.com/media/sounds/tada.mp3"></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>
