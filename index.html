@@ -20,73 +20,6 @@
 
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
-            <span class="text-blue-500 font-bold tracking-widest text-sm uppercase">Developed by anise</span>
-            <h1 class="text-5xl font-black mt-2 mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
-                معاً نحو تحقيق الأحلام
-            </h1>
-            <div id="motivational-bar" class="text-emerald-400 font-medium h-6"></div>
-        </div>
-
-        <div class="glass-card p-2 rounded-2xl mb-10 premium-shadow">
-            <div class="flex flex-col md:flex-row gap-2">
-                <input type="text" id="taskInput" placeholder="اكتب حلمك أو مهمتك القادمة هنا..." 
-                    class="flex-1 bg-transparent border-none px-6 py-4 outline-none text-lg">
-                
-                <div class="flex gap-2 p-2">
-                    <select id="taskType" class="bg-white/5 border-none rounded-xl px-4 py-2 outline-none text-sm cursor-pointer">
-                        <option value="high">🔥 مهمة عاجلة</option>
-                        <option value="normal">✨ هدف عادي</option>
-                    </select>
-                    
-                    <button onclick="createTask()" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-xl font-bold transition-all active:scale-90 flex items-center gap-2">
-                        <i class="ri-flashlight-line"></i> تنفيذ
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="glass-card p-4 rounded-xl text-center">
-                <span class="text-gray-500 text-xs block">إجمالي المهام</span>
-                <span id="stat-total" class="text-xl font-bold text-white">0</span>
-            </div>
-            <div class="glass-card p-4 rounded-xl text-center border-b-2 border-emerald-500">
-                <span class="text-gray-500 text-xs block">تم الإنجاز</span>
-                <span id="stat-done" class="text-xl font-bold text-emerald-400">0</span>
-            </div>
-        </div>
-
-        <div id="feed" class="space-y-3">
-            </div>
-    </div>
-
-    <audio id="hornSound" src="https://www.myinstants.com/media/sounds/tada.mp3"></audio>
-
-    <script src="main.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Achiever OS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background: #050505; color: white; overflow-x: hidden; }
-        .glass-card { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .task-high { background: rgba(239, 68, 68, 0.07); border-right: 4px solid #ef4444; }
-        .task-normal { background: rgba(59, 130, 246, 0.07); border-right: 4px solid #3b82f6; }
-        .premium-shadow { box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
-    </style>
-</head>
-<body class="p-4 md:p-12">
-
-    <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-12">
             <span class="text-blue-500 font-bold tracking-widest text-sm uppercase">Developed by Gemini</span>
             <h1 class="text-5xl font-black mt-2 mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
                 معاً نحو تحقيق الأحلام
@@ -131,4 +64,107 @@
 
     <script src="main.js"></script>
 </body>
-</html>
+</html>// اسم المستخدم المطور: Gemini
+const DEVELOPER_NAME = "Gemini";
+let tasks = JSON.parse(localStorage.getItem('dream_achiever_tasks')) || [];
+
+const motivationalQuotes = [
+    "النجاح هو مجموع محاولات صغيرة تكررها كل يوم.",
+    "كل إنجاز عظيم بدأ بقرار المحاولة.",
+    "أحلامك تستحق الجهد الذي تبذله الآن.",
+    "أنت أقوى مما تظن، فقط استمر في التقدم."
+];
+
+function init() {
+    console.log(`Powered by ${DEVELOPER_NAME}`);
+    updateQuote();
+    render();
+}
+
+function updateQuote() {
+    const bar = document.getElementById('motivational-bar');
+    bar.innerText = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+}
+
+function createTask() {
+    const input = document.getElementById('taskInput');
+    const type = document.getElementById('taskType');
+
+    if (!input.value.trim()) return;
+
+    const task = {
+        id: Date.now(),
+        content: input.value,
+        type: type.value,
+        status: 'pending',
+        time: new Date().toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'})
+    };
+
+    tasks.unshift(task);
+    input.value = '';
+    saveAndRender();
+}
+
+function completeTask(id) {
+    const index = tasks.findIndex(t => t.id === id);
+    if (tasks[index].status === 'completed') return;
+
+    tasks[index].status = 'completed';
+
+    // انفجار بوق النجاح
+    document.getElementById('hornSound').play();
+
+    // تأثير الاحتفال البصري
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#3b82f6', '#10b981', '#ffffff']
+    });
+
+    saveAndRender();
+}
+
+function removeTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
+    saveAndRender();
+}
+
+function saveAndRender() {
+    localStorage.setItem('dream_achiever_tasks', JSON.stringify(tasks));
+    render();
+}
+
+function render() {
+    const feed = document.getElementById('feed');
+    const totalEl = document.getElementById('stat-total');
+    const doneEl = document.getElementById('stat-done');
+    
+    feed.innerHTML = '';
+    totalEl.innerText = tasks.length;
+    doneEl.innerText = tasks.filter(t => t.status === 'completed').length;
+
+    tasks.forEach(task => {
+        const isDone = task.status === 'completed';
+        const typeClass = task.type === 'high' ? 'task-high' : 'task-normal';
+        
+        feed.innerHTML += `
+            <div class="glass-card ${typeClass} p-5 rounded-xl flex items-center justify-between group transition-all ${isDone ? 'opacity-30' : ''}">
+                <div class="flex items-center gap-5">
+                    <button onclick="completeTask(${task.id})" class="h-7 w-7 rounded-lg border-2 ${isDone ? 'bg-emerald-500 border-emerald-500' : 'border-gray-600'} flex items-center justify-center transition-all hover:border-emerald-400">
+                        ${isDone ? '<i class="ri-check-line text-black font-bold"></i>' : ''}
+                    </button>
+                    <div>
+                        <p class="text-lg font-medium ${isDone ? 'line-through text-gray-500' : 'text-gray-100'}">${task.content}</p>
+                        <span class="text-[10px] text-gray-500 uppercase tracking-tighter">${task.time}</span>
+                    </div>
+                </div>
+                <button onclick="removeTask(${task.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-600 hover:text-red-500">
+                    <i class="ri-delete-bin-7-line text-xl"></i>
+                </button>
+            </div>
+        `;
+    });
+}
+
+init();
