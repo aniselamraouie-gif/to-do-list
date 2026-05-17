@@ -25,7 +25,6 @@
             border: 1px solid rgba(255,255,255,0.05); 
         }
 
-        /* تلوين المهام بلمسات مميزة */
         .task-high { 
             background: rgba(239, 68, 68, 0.05); 
             border-right: 5px solid #ef4444; 
@@ -37,8 +36,8 @@
         }
 
         .completed-task {
-            opacity: 0.4;
-            filter: grayscale(0.5);
+            opacity: 0.5;
+            filter: grayscale(0.3);
         }
 
         @keyframes taskIn {
@@ -53,12 +52,14 @@
 
     <div class="max-w-3xl mx-auto">
         
+        <!-- اسم المطور -->
         <div class="text-center mb-6">
             <span class="text-[10px] tracking-[0.5em] text-blue-500 font-bold uppercase opacity-70">
-                    Developed by Anis
+                Developed by Anis
             </span>
         </div>
 
+        <!-- العنوان والاقتباس -->
         <header class="text-center mb-10">
             <h1 class="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-white via-blue-400 to-gray-500 bg-clip-text text-transparent">
                 معاً نحو تحقيق الأحلام
@@ -66,34 +67,69 @@
             <p id="quote-display" class="text-emerald-400 font-medium italic min-h-[1.5rem]"></p>
         </header>
 
-        <div class="glass-card p-4 rounded-3xl mb-8 shadow-2xl">
-            <div class="flex flex-col md:flex-row gap-3">
+        <!-- لوحة التحكم بالتقدم (اليومي والأسبوعي) -->
+        <div class="glass-card p-6 rounded-3xl mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 shadow-2xl">
+            <!-- التقدم اليومي -->
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-bold text-gray-300">📈 تقدمك اليومي</span>
+                    <span id="daily-percent" class="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-bold">0%</span>
+                </div>
+                <div class="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                    <div id="daily-bar" class="bg-gradient-to-l from-blue-500 to-cyan-400 h-full w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+            <!-- التقدم الأسبوعي -->
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-bold text-gray-300">📅 تقدمك الأسبوعي</span>
+                    <span id="weekly-percent" class="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">0%</span>
+                </div>
+                <div class="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                    <div id="weekly-bar" class="bg-gradient-to-l from-purple-500 to-pink-500 h-full w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- خانة إضافة مهمة جديدة مع المدة الزمنية -->
+        <div class="glass-card p-4 rounded-3xl mb-6 shadow-2xl">
+            <div class="flex flex-col gap-3">
                 <input type="text" id="taskInput" placeholder="اكتب خطوتك القادمة نحو حلمك..." 
-                    class="flex-1 bg-black/30 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-blue-500 transition-all text-lg">
+                    class="w-full bg-black/30 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-blue-500 transition-all text-lg">
                 
-                <div class="flex gap-2">
-                    <select id="priority" class="bg-black/30 border border-white/10 rounded-2xl px-4 py-4 outline-none cursor-pointer text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <select id="priority" class="bg-black/30 border border-white/10 rounded-2xl px-4 py-4 outline-none cursor-pointer text-sm text-gray-300">
                         <option value="high">🔥 مهمة كبرى</option>
-                        <option value="normal">✨ هدف عادي</option>
+                        <option value="normal" selected>✨ هدف عادي</option>
                     </select>
+
+                    <input type="number" id="taskDuration" placeholder="المدة (بالدقائق)" min="1"
+                        class="bg-black/30 border border-white/10 rounded-2xl px-4 py-4 outline-none focus:border-blue-500 transition-all text-sm text-center">
                     
-                    <button onclick="addTask()" class="bg-blue-600 hover:bg-blue-500 px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-600/20 active:scale-95 transition-all">
-                        إضافة
+                    <button onclick="addTask()" class="bg-blue-600 hover:bg-blue-500 px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-600/20 active:scale-95 transition-all text-white">
+                        إضافة المهمة
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="container" class="space-y-4">
-            </div>
+        <!-- أزرار الفلترة وتصفيف المهام (ميزة إضافية) -->
+        <div class="flex justify-center gap-2 mb-6 text-sm">
+            <button onclick="setFilter('all')" id="filter-all" class="px-4 py-2 rounded-xl font-bold bg-white/10 text-white transition-all">الكل</button>
+            <button onclick="setFilter('active')" id="filter-active" class="px-4 py-2 rounded-xl font-bold text-gray-400 hover:bg-white/5 transition-all">النشطة</button>
+            <button onclick="setFilter('completed')" id="filter-completed" class="px-4 py-2 rounded-xl font-bold text-gray-400 hover:bg-white/5 transition-all">المكتملة</button>
+        </div>
+
+        <!-- حاوية عرض المهام -->
+        <div id="container" class="space-y-4"></div>
     </div>
 
     <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/2018/success-fanfare-trumpets-603.wav"></audio>
 
     <script>
-        // المحرك البرمجي (Gemini Logic Engine)
         const DEVELOPER = "Gemini";
         let tasks = JSON.parse(localStorage.getItem('dream_tasks_global')) || [];
+        let currentFilter = 'all';
         
         const quotes = [
             "النجاح ليس محطة، بل طريق مستمر.",
@@ -106,6 +142,8 @@
             console.log("System Initialized by", DEVELOPER);
             displayQuote();
             render();
+            // تشغيل مؤقت لتحديث العدادات التنازلية كل ثانية
+            setInterval(updateCountdowns, 1000);
         }
 
         function displayQuote() {
@@ -113,22 +151,48 @@
             document.getElementById('quote-display').innerText = `"${q}"`;
         }
 
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            ['all', 'active', 'completed'].forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if(f === filterType) {
+                    btn.classList.add('bg-white/10', 'text-white');
+                    btn.classList.remove('text-gray-400');
+                } else {
+                    btn.classList.remove('bg-white/10', 'text-white');
+                    btn.classList.add('text-gray-400');
+                }
+            });
+            render();
+        }
+
         function addTask() {
             const input = document.getElementById('taskInput');
             const prio = document.getElementById('priority');
+            const durationInput = document.getElementById('taskDuration');
 
             if (!input.value.trim()) return;
+
+            let durationMs = null;
+            let deadline = null;
+            if (durationInput.value && parseInt(durationInput.value) > 0) {
+                durationMs = parseInt(durationInput.value) * 60 * 1000;
+                deadline = Date.now() + durationMs;
+            }
 
             const task = {
                 id: Date.now(),
                 text: input.value,
                 prio: prio.value,
                 done: false,
+                createdAt: Date.now(), // لحساب الإحصائيات اليومية والأسبوعية
+                deadline: deadline,
                 time: new Date().toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'})
             };
 
             tasks.unshift(task);
             input.value = '';
+            durationInput.value = '';
             saveAndRender();
         }
 
@@ -138,10 +202,8 @@
 
             tasks[index].done = true;
 
-            // صوت البوق
             document.getElementById('successSound').play().catch(e => console.log("Sound muted by browser"));
 
-            // انفجار القصاصات
             confetti({
                 particleCount: 150,
                 spread: 70,
@@ -162,30 +224,100 @@
             render();
         }
 
+        // حساب وإظهار نسب التقدم اليومي والأسبوعي
+        function updateProgressStats() {
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            const oneWeek = 7 * oneDay;
+
+            // تصفية مهام اليوم ومهام الأسبوع
+            const dailyTasks = tasks.filter(t => (now - t.createdAt) <= oneDay);
+            const weeklyTasks = tasks.filter(t => (now - t.createdAt) <= oneWeek);
+
+            // حساب النسبة لليوم
+            const dailyTotal = dailyTasks.length;
+            const dailyDone = dailyTasks.filter(t => t.done).length;
+            const dailyPercent = dailyTotal === 0 ? 0 : Math.round((dailyDone / dailyTotal) * 100);
+
+            // حساب النسبة للأسبوع
+            const weeklyTotal = weeklyTasks.length;
+            const weeklyDone = weeklyTasks.filter(t => t.done).length;
+            const weeklyPercent = weeklyTotal === 0 ? 0 : Math.round((weeklyDone / weeklyTotal) * 100);
+
+            // تحديث واجهة المستخدم للتقدم اليومي
+            document.getElementById('daily-percent').innerText = `${dailyPercent}%`;
+            document.getElementById('daily-bar').style.width = `${dailyPercent}%`;
+
+            // تحديث واجهة المستخدم للتقدم الأسبوعي
+            document.getElementById('weekly-percent').innerText = `${weeklyPercent}%`;
+            document.getElementById('weekly-bar').style.width = `${weeklyPercent}%`;
+        }
+
+        // تحديث العدادات التنازلية الحية في الصفحة
+        function updateCountdowns() {
+            tasks.forEach(task => {
+                if (task.deadline && !task.done) {
+                    const element = document.getElementById(`timer-${task.id}`);
+                    if (element) {
+                        const timeLeft = task.deadline - Date.now();
+                        if (timeLeft <= 0) {
+                            element.innerText = "⌛ انتهى الوقت!";
+                            element.className = "text-[11px] text-red-400 font-bold bg-red-500/10 px-2 py-0.5 rounded-lg";
+                        } else {
+                            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                            element.innerText = `⏱️ المتبقي: ${minutes}د ${seconds}ث`;
+                        }
+                    }
+                }
+            });
+        }
+
         function render() {
             const container = document.getElementById('container');
             container.innerHTML = '';
 
-            tasks.forEach(task => {
+            updateProgressStats();
+
+            // فتلرة المهام بناءً على الخيار المحدد
+            let filteredTasks = tasks;
+            if (currentFilter === 'active') filteredTasks = tasks.filter(t => !t.done);
+            if (currentFilter === 'completed') filteredTasks = tasks.filter(t => t.done);
+
+            filteredTasks.forEach(task => {
                 const styleClass = task.prio === 'high' ? 'task-high' : 'task-normal';
+                
+                // إعداد نص وعنصر المؤقت الزمني إذا وجد
+                let timerHtml = '';
+                if (task.deadline && !task.done) {
+                    timerHtml = `<span id="timer-${task.id}" class="text-[11px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-lg transition-all">⏱️ جاري الحساب...</span>`;
+                } else if (task.deadline && task.done) {
+                    timerHtml = `<span class="text-[11px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-lg">✓ اكتملت بالوقت</span>`;
+                }
                 
                 container.innerHTML += `
                     <div class="glass-card ${styleClass} p-5 rounded-2xl flex items-center justify-between animate-task ${task.done ? 'completed-task' : ''}">
                         <div class="flex items-center gap-5">
-                            <button onclick="toggleTask(${task.id})" class="h-8 w-8 rounded-xl border-2 ${task.done ? 'bg-emerald-500 border-emerald-500' : 'border-gray-600'} flex items-center justify-center transition-all">
+                            <button onclick="toggleTask(${task.id})" class="h-8 w-8 rounded-xl border-2 ${task.done ? 'bg-emerald-500 border-emerald-500' : 'border-gray-600'} flex items-center justify-center transition-all shrink-0">
                                 ${task.done ? '<i class="ri-check-line text-black font-bold text-xl"></i>' : ''}
                             </button>
                             <div>
-                                <h3 class="text-lg font-medium text-gray-100 ${task.done ? 'line-through' : ''}">${task.text}</h3>
-                                <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">${task.time}</span>
+                                <h3 class="text-lg font-medium text-gray-100 mb-1 ${task.done ? 'line-through text-gray-500' : ''}">${task.text}</h3>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">${task.time}</span>
+                                    ${timerHtml}
+                                </div>
                             </div>
                         </div>
-                        <button onclick="deleteTask(${task.id})" class="text-gray-600 hover:text-red-500 transition-colors p-2">
+                        <button onclick="deleteTask(${task.id})" class="text-gray-600 hover:text-red-500 transition-colors p-2 shrink-0">
                             <i class="ri-delete-bin-line text-xl"></i>
                         </button>
                     </div>
                 `;
             });
+
+            // تحديث التوقيت فوراً بعد البناء الهيكلي
+            updateCountdowns();
         }
 
         init();
